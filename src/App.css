@@ -13,3 +13,34 @@
   line-height: 24px;
   padding: 0 3%
 }
+
+.logo {
+ display: inline-block;
+ vertical-align: middle;
+ height: 30px;
+}
+
+.logo-img {
+  position: relative;
+  object-position: center;
+  object-fit: contain;
+  height: 28px;
+  width: 28px;
+  bottom: 3.5px;
+  right: 1px;
+}
+
+.first {
+  padding-left: 37px;
+}
+
+.header-left {
+  display: inline-block;
+  padding: 20px 0;
+}
+a.left {
+  position: relative;
+  color: white;
+  text-decoration: none;
+  padding: 20px 10px;
+}
