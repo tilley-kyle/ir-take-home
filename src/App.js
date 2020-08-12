@@ -23,7 +23,7 @@ class App extends React.Component {
             </a>
           </div>
           {/* <div className="">Prognosis</div> */}
-          <div className="header-left">
+          <div className="header-left first">
             <a className="left" href="google.com">Home</a>
           </div>
           <div className="header-left">
