@@ -11,7 +11,7 @@ app.use(express.static('build'));
 
 const port = 8153;
 
-app.listen(process.env.PORT || port);
+app.listen(process.env.PORT || port, () => console.log('listening'));
 
 app.get('/data', xmlParser); //going to be get route on componentDidMount in the React app
 

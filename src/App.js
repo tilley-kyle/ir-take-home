@@ -11,7 +11,10 @@ class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    fetch('http://localhost:8153/data')
 
+  }
 
   render () {
     return (
