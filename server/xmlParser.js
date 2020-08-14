@@ -1,43 +1,16 @@
-const fs = require('fs');
+const xmlParser = (req, res, xml) => {
+  const parsedData = {};
+  const tagsToSearchFor = ['SystemUnit', 'Peripherals', 'Cameras', 'Call', 'Network', 'Capabilities', 'SystemTime', 'ContactInfo', 'Status'];
 
-const fileLocation = './server/test.xml';
 
-const xmlParser = (req, res) => {
-  fs.readFile(fileLocation,'utf8', (err, data) => {
-    if (err) {
-      console.log(err);
-      res.status(404).send(err);
-    }
-    const informationNames = {};
-    let questionMarkCount = 0;
-    const xmlParserRecursor = (xmlString, currTag, currObj) => {
-      let tagString = '';
-      let contentString = '';
-      for (let i = 0; i < xmlString.length; i++) {
-        if ((questionMarkCount < 2)) {
-          if (xmlString[i] === '?') {
-            questionMarkCount++;
-          }
-          continue;
-        }
-        if (xmlString[i - 1] === '>') {
 
-        } else if (xmlString[i] === '<' && xmlString[i + 1] !== '/') {
-          i++;
-          while (xmlString[i] !== '>') {
-            tagString += xmlString[i];
-            i++;
-          }
-        }
+  let startIndex = xml.indexOf('?>') + 1;
+  const recursorFunction = (xmlString, obj) => {
 
-      }
+  }
 
-      console.log(tagString, contentString);
-
-    }
-
-    xmlParserRecursor(data, '', informationNames);
-  })
+  recursorFunction(xml, parsedData);
+  console.log(parsedData);
 }
 
 module.exports = xmlParser;
