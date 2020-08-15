@@ -1,6 +1,6 @@
 const fs = require('fs');
-const xmlParser = require('./xmlParser');
-const fileLocation = './server/testxmls/singleLevel.xml';
+const xmlParser = require('./xmlParser2');
+const fileLocation = './server/testxmls/multiLevel.xml';
 
 const xmlReader = (req, res) => {
   fs.readFile(fileLocation,'utf8', (err, data) => {
