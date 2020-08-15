@@ -17,7 +17,7 @@ const xmlParser = (req, res, xml) => {
       }
 
       //if CE is > AND next element IS NOT < set following values till next < to the value of key
-      else if (xmlString[i - 1] === '>') {
+      else if (xmlString[i - 1] === '>' && tag) {
         const endOfProperty = (xmlString.slice(i)).indexOf('</') + i;
         const propertyValue = xmlString.slice(i, endOfProperty);
         obj[tag] = propertyValue;
