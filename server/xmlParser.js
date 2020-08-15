@@ -1,6 +1,5 @@
 const xmlParser = (req, res, xml) => {
   const parsedData = {};
-  const tagsToSearchFor = ['SystemUnit', 'Peripherals', 'Cameras', 'Call', 'Network', 'Capabilities', 'SystemTime', 'ContactInfo'];
   const startIndex = xml.indexOf('?>') + 1;
 
   const recursorFunction = (xmlString, obj, currentParentTag) => {
