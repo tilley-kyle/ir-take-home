@@ -18,7 +18,9 @@ const xmlParser = (req, res, xml) => {
         }
         innerString = innerString.slice(0, innerString.indexOf(`</${innerTagEnd}`) + innerTagEnd.length + 3);
         obj[tag] = { [innerTag]: recursor(innerString, obj)}
-      } else if (xmlString.slice(tag.length + 2).indexOf('\n') !== 0) { //if this is the lowest layer to put data in
+      }
+
+      else if (xmlString.slice(tag.length + 2).indexOf('\n') !== 0) { //if this is the lowest layer to put data in
         const endOfTag = xmlString.slice(tag.length + 2).indexOf('</');
         return xmlString.slice(tag.length + 2, endOfTag + tag.length + 2);
       }

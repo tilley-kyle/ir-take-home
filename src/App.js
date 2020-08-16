@@ -13,7 +13,16 @@ class App extends React.Component {
 
   componentDidMount() {
     fetch('http://localhost:8153/data')
-
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      this.setState({ status: data });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   render () {

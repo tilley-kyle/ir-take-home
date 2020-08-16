@@ -1,6 +1,7 @@
 const fs = require('fs');
 const xmlParser = require('./xmlParser3');
-const fileLocation = './server/testxmls/multiLevel2.xml';
+const fileLocation = './server/status.xml';
+const parseString = require('xml2js').parseString;
 
 const xmlReader = (req, res) => {
   fs.readFile(fileLocation,'utf8', (err, data) => {
@@ -8,7 +9,9 @@ const xmlReader = (req, res) => {
       console.log(err);
       res.status(404).send(err);
     } else {
-      xmlParser(req, res, data);
+      parseString(data, (err, result) => {
+        res.status(200).send(result);
+      });
     }
   });
 }
