@@ -1,13 +1,15 @@
 import React from 'react';
 import './App.css';
 
+import SystemDetails from './components/SystemDetails';
+
 import logo from './logo.png';
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-
+      status: {},
     }
   }
 
@@ -16,9 +18,8 @@ class App extends React.Component {
     .then((response) => {
       return response.json();
     })
-    .then((data) => {
-      console.log(data);
-      this.setState({ status: data });
+    .then(async (data) => {
+      await this.setState({ status: data });
     })
     .catch((err) => {
       console.log(err);
@@ -26,6 +27,7 @@ class App extends React.Component {
   }
 
   render () {
+    const { status } = this.state;
     return (
       <div className="container">
         <div className="header-container">
@@ -34,7 +36,6 @@ class App extends React.Component {
               <img className="logo-img" src={logo} alt="IR logo" />
             </a>
           </div>
-          {/* <div className="">Prognosis</div> */}
           <div className="header-left first">
             <a className="left" href="google.com" target="_blank" rel="noopener noreferrer">Home</a>
           </div>
@@ -48,12 +49,11 @@ class App extends React.Component {
             <a className="left" href="https://www.youtube.com/watch?v=On3vPlqcsLo" target="_blank" rel="noopener noreferrer">Alerts</a>
           </div>
           <div className="header-left right">
-            <a className="symbol" href="google.com" target="_blank" rel="noopener noreferrer" ></a>
-          </div>
-          <div className="header-left right">
             <a className="left" href="http://www.kyleatilley.com/" target="_blank" rel="noopener noreferrer">Contact Us</a>
           </div>
-
+        </div>
+        <div className="body-container">
+          <SystemDetails status={status} />
         </div>
       </div>
     );

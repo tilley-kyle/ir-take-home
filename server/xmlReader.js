@@ -1,5 +1,5 @@
 const fs = require('fs');
-const xmlParser = require('./xmlParser3');
+const xmlParser = require('./xmlParser');
 const fileLocation = './server/status.xml';
 const parseString = require('xml2js').parseString;
 

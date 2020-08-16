@@ -1,59 +1,34 @@
 const xmlParser = (req, res, xml) => {
   const parsedData = {};
-  const startIndex = xml.indexOf('?>') + 2;
+  xml = xml.slice(xml.indexOf('?>') + 3);
 
-  const recursorFunction = (xmlString, obj, currentParentTag) => {
-    let tag = '';
-    const object = {};
+
+  const recursor = (xmlString, obj) => {
+    const tag = xmlString.slice(1, xmlString.indexOf('>'));
+
     for (let i = 0; i < xmlString.length; i++) {
-
-      if (xmlString[i] === ' ') {
-        continue;
-      }
-
-      //if CE is < create new key in obj through next >
-      if (xmlString[i] === '<' && xmlString[i + 1] !== '/') {
-        const endOfTag = xmlString.slice(i).indexOf('>');
-        tag = xmlString.slice(i + 1, endOfTag + i);
-        i += endOfTag; //takes the function out to the closing > of the tag
-      }
-
-      //if CE is > AND next element IS <, call recursor function
-      else if (xmlString.slice(i).indexOf('\n') === 0 && xmlString[i - 1] === '>') {
-        i += xmlString.slice(i).indexOf('<');
-        if (xmlString[i + 1] !== '/') {
-          // console.log('i: ', i);
-          // console.log('*******')
-          // console.log('tag: ', tag)
-          // console.log('*******')
-          // console.log(xmlString.slice(i));
-          // console.log('********')
-          // console.log('obj: ', obj)
-          obj[tag] = recursorFunction(xmlString.slice(i), obj[tag], tag)
+      // const tag = xmlString.slice(1, xmlString.indexOf('>'));
+      if (xmlString.slice(tag.length + 2).indexOf('\n') === 0) { //if there is nested layer
+        let innerString = xmlString.slice(tag.length + 2);
+        innerString = innerString.slice(innerString.indexOf('<'));
+        const innerTag = innerString.slice(1, innerString.indexOf('>'));
+        let innerTagEnd = innerString.slice(1, innerString.indexOf('>'));
+        if (innerTag.indexOf(' ') > -1) { //checking for spaces in tag that would make closing tag harder to find
+          innerTagEnd = innerTag.slice(0, innerTag.indexOf(' '));
         }
+        innerString = innerString.slice(0, innerString.indexOf(`</${innerTagEnd}`) + innerTagEnd.length + 3);
+        obj[tag] = { [innerTag]: recursor(innerString, obj)}
       }
 
-      //if CE is > AND next element IS NOT < set following values till next < to the value of key
-      else if (xmlString[i - 1] === '>' && tag) {
-        const endOfProperty = (xmlString.slice(i)).indexOf('<') + i;
-        let propertyValue = xmlString.slice(i, endOfProperty);
-        while (propertyValue.indexOf('\n') > -1) {
-          if (propertyValue.indexOf('\n') === 0) {
-            propertyValue = propertyValue.slice(1);
-          } else {
-            propertyValue = propertyValue.slice(0, propertyValue.indexOf('\n'));
-          }
-        }
-        return  propertyValue;
-        i = endOfProperty - 1; //last value of the property, the last level
-        return;
+      else if (xmlString.slice(tag.length + 2).indexOf('\n') !== 0) { //if this is the lowest layer to put data in
+        const endOfTag = xmlString.slice(tag.length + 2).indexOf('</');
+        return xmlString.slice(tag.length + 2, endOfTag + tag.length + 2);
       }
-
-      //if CE is / AND next element IS > return out of recursor
     }
   }
-  recursorFunction(xml.slice(startIndex), parsedData, '');
-  console.log('final: ', parsedData)
+
+  recursor(xml, parsedData);
+  console.log(parsedData)
 }
 
 module.exports = xmlParser;
