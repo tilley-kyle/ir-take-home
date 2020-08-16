@@ -29,7 +29,7 @@ const xmlParser = (req, res, xml) => {
           // console.log(xmlString.slice(i));
           // console.log('********')
           // console.log('obj: ', obj)
-          obj[tag] = recursorFunction(xmlString.slice(i), obj, tag)
+          obj[tag] = recursorFunction(xmlString.slice(i), obj[tag], tag)
         }
       }
 
@@ -44,7 +44,7 @@ const xmlParser = (req, res, xml) => {
             propertyValue = propertyValue.slice(0, propertyValue.indexOf('\n'));
           }
         }
-        return obj[tag] = propertyValue;
+        return  propertyValue;
         i = endOfProperty - 1; //last value of the property, the last level
         return;
       }

@@ -12,12 +12,13 @@ const xmlParser = (req, res, xml) => {
       if (xmlString[i] === '<' && xmlString[i + 1] !== '/') {
         const endOfTag = xmlString.indexOf('>');
         const tag = xmlString.slice(i + 1, endOfTag);
-        i = endOfTag + 1;
-        if (xmlString[i] !== '<') {
-          const startOfValue = i;
-          const value = xmlString.slice(startOfValue, xmlString.slice(startOfValue).indexOf('<') + i);
-          console.log('value: ', value)
-          obj[tag] = value;
+        console.log('tag: ', tag);
+        i += endOfTag + 1;
+        if (xmlString.slice(i).indexOf('\n') === 0) {
+          i += xmlString.slice(i).indexOf('<');
+          obj[tag] = { tag: recursor(xmlString.slice(i), obj) };
+        } else if (xmlString.slice(i).indexOf('\n') !== 0) {
+          obj[tag] =   xmlString.slice(i, xmlString.slice(i).indexOf('<') + i);;
         }
       }
     }
