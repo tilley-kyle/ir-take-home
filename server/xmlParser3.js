@@ -18,7 +18,8 @@ const xmlParser = (req, res, xml) => {
         innerString = innerString.slice(0, innerString.indexOf(`</${innerTag}`) + innerTag.length + 3);
         obj[tag] = { [innerTag]: recursor(innerString, obj)}
       } else if (xmlString.slice(tag.length + 2).indexOf('\n') !== 0) {
-        return 'hi';
+        const endOfTag = xmlString.slice(tag.length + 2).indexOf('</');
+        return xmlString.slice(tag.length + 2, endOfTag + tag.length + 2);
 
       }
     }
