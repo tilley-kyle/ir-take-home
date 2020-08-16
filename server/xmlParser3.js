@@ -4,25 +4,23 @@ const xmlParser = (req, res, xml) => {
 
 
   const recursor = (xmlString, obj) => {
+    const tag = xmlString.slice(1, xmlString.indexOf('>'));
 
     for (let i = 0; i < xmlString.length; i++) {
-      const tag = xmlString.slice(1, xmlString.indexOf('>'));
-      console.log(xmlString.slice(tag.length + 2).indexOf('\n') === 0)
+      // const tag = xmlString.slice(1, xmlString.indexOf('>'));
       if (xmlString.slice(tag.length + 2).indexOf('\n') === 0) { //if there is nested layer
         let innerString = xmlString.slice(tag.length + 2);
         innerString = innerString.slice(innerString.indexOf('<'));
         let innerTag = innerString.slice(1, innerString.indexOf('>'));
         if (innerTag.indexOf(' ') > -1) {
           innerTag = innerTag.slice(0, innerTag.indexOf(' '));
-          console.log('inner: ', innerTag)
         }
         innerString = innerString.slice(0, innerString.indexOf(`</${innerTag}`) + innerTag.length + 3);
-        console.log('new: ', innerString)
-        obj[tag] = 'not ready'
+        obj[tag] = { [innerTag]: recursor(innerString, obj)}
+      } else if (xmlString.slice(tag.length + 2).indexOf('\n') !== 0) {
+        return 'hi';
+
       }
-      // if (xmlString.slice(i).indexOf('\n') === 0) {
-      //   console.log('there')
-      // }
     }
   }
 
