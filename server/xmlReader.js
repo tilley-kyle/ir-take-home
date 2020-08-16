@@ -1,5 +1,5 @@
 const fs = require('fs');
-const xmlParser = require('./xmlParser2');
+const xmlParser = require('./xmlParser3');
 const fileLocation = './server/testxmls/singleLevel.xml';
 
 const xmlReader = (req, res) => {
