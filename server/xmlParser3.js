@@ -11,8 +11,13 @@ const xmlParser = (req, res, xml) => {
       if (xmlString.slice(tag.length + 2).indexOf('\n') === 0) { //if there is nested layer
         let innerString = xmlString.slice(tag.length + 2);
         innerString = innerString.slice(innerString.indexOf('<'));
-        const innerTag = innerString.slice(1, innerString.indexOf('>'));
-        console.log('new: ', innerTag)
+        let innerTag = innerString.slice(1, innerString.indexOf('>'));
+        if (innerTag.indexOf(' ') > -1) {
+          innerTag = innerTag.slice(0, innerTag.indexOf(' '));
+          console.log('inner: ', innerTag)
+        }
+        innerString = innerString.slice(0, innerString.indexOf(`</${innerTag}`) + innerTag.length + 3);
+        console.log('new: ', innerString)
         obj[tag] = 'not ready'
       }
       // if (xmlString.slice(i).indexOf('\n') === 0) {
