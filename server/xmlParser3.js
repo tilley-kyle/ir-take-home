@@ -11,16 +11,16 @@ const xmlParser = (req, res, xml) => {
       if (xmlString.slice(tag.length + 2).indexOf('\n') === 0) { //if there is nested layer
         let innerString = xmlString.slice(tag.length + 2);
         innerString = innerString.slice(innerString.indexOf('<'));
-        let innerTag = innerString.slice(1, innerString.indexOf('>'));
-        if (innerTag.indexOf(' ') > -1) {
-          innerTag = innerTag.slice(0, innerTag.indexOf(' '));
+        const innerTag = innerString.slice(1, innerString.indexOf('>'));
+        let innerTagEnd = innerString.slice(1, innerString.indexOf('>'));
+        if (innerTag.indexOf(' ') > -1) { //checking for spaces in tag that would make closing tag harder to find
+          innerTagEnd = innerTag.slice(0, innerTag.indexOf(' '));
         }
-        innerString = innerString.slice(0, innerString.indexOf(`</${innerTag}`) + innerTag.length + 3);
+        innerString = innerString.slice(0, innerString.indexOf(`</${innerTagEnd}`) + innerTagEnd.length + 3);
         obj[tag] = { [innerTag]: recursor(innerString, obj)}
-      } else if (xmlString.slice(tag.length + 2).indexOf('\n') !== 0) {
+      } else if (xmlString.slice(tag.length + 2).indexOf('\n') !== 0) { //if this is the lowest layer to put data in
         const endOfTag = xmlString.slice(tag.length + 2).indexOf('</');
         return xmlString.slice(tag.length + 2, endOfTag + tag.length + 2);
-
       }
     }
   }

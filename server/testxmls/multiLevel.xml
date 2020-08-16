@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <lvl1 item="1">
-  <lvl2 item="hi">multi level</lvl2>
+  <lvl2>multi level</lvl2>
 </lvl1>
